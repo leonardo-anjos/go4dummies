@@ -11,7 +11,7 @@ func main() {
 	log.SetPrefix("greetings: ")
 	log.SetFlags(0)
 
-	names := []string{"Gladys", "Samantha", "Darrin"}
+	names := []string{"Leonardo", "Quézia", "Léo"}
 
 	messages, err := greetings.Hellos(names)
 

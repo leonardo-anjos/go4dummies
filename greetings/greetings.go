@@ -8,16 +8,33 @@ import (
 
 func Hello(name string) (string, error) {
 	if name == "" {
-		return "", errors.New("empty input value")
+		return name, errors.New("empty name")
 	}
 
-	message := fmt.Sprintf(randomGreeting(), name)
+	message := fmt.Sprintf(randomFormat(), name)
+
 	return message, nil
 }
 
-func randomGreeting() string {
+func Hellos(names []string) (map[string]string, error) {
+	messages := make(map[string]string)
+
+	for _, name := range names {
+		message, err := Hello(name)
+
+		if err != nil {
+			return nil, err
+		}
+
+		messages[name] = message
+	}
+
+	return messages, nil
+}
+
+func randomFormat() string {
 	formats := []string{
-		"Hi, %v. Welcome to go lang world!",
+		"Hi, %v. Welcome!",
 		"Great to see you, %v!",
 		"Hail, %v! Well met!",
 	}

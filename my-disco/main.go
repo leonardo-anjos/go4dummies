@@ -15,11 +15,22 @@ type album struct {
 	Price  float64 `json:"price"`
 }
 
+var albumsMap = make(map[string]album)
+
 // albums slice to seed record album data.
 var albums = []album{
 	{ID: "1", Title: "Blue Train", Artist: "John Coltrane", Price: 56.99},
 	{ID: "2", Title: "Jeru", Artist: "Gerry Mulligan", Price: 17.99},
 	{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Artist: "Sarah Vaughan", Price: 39.99},
+}
+
+func isDuplicate(title, artist string) bool {
+	for _, existingAlbum := range albumsMap {
+		if existingAlbum.Title == title && existingAlbum.Artist == artist {
+			return true
+		}
+	}
+	return false
 }
 
 func main() {
@@ -29,7 +40,7 @@ func main() {
 	router.POST("/albums", postAlbums)
 	router.DELETE("/albums/:id", deleteAlbumByID)
 
-	router.Run("localhost:8080")
+	router.Run(":8080")
 }
 
 // getAlbums responds with the list of all albums as JSON.
@@ -44,6 +55,13 @@ func postAlbums(c *gin.Context) {
 	// Call BindJSON to bind the received JSON to
 	// newAlbum.
 	if err := c.BindJSON(&newAlbum); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "invalid request payload"})
+		return
+	}
+
+	// Validate uniqueness based on title and artist
+	if isDuplicate(newAlbum.Title, newAlbum.Artist) {
+		c.IndentedJSON(http.StatusConflict, gin.H{"error": "album with the same title and artist already exists"})
 		return
 	}
 
@@ -83,8 +101,8 @@ func deleteAlbumByID(c *gin.Context) {
 	// If the album is found, remove it from the slice
 	if index != -1 {
 		albums = append(albums[:index], albums[index+1:]...)
-		c.IndentedJSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Album with ID %s deleted", id)})
+		c.IndentedJSON(http.StatusOK, gin.H{"message": fmt.Sprintf("album with ID %s deleted", id)})
 	} else {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"error": fmt.Sprintf("Album with ID %s not found", id)})
+		c.IndentedJSON(http.StatusNotFound, gin.H{"error": fmt.Sprintf("album with ID %s not found", id)})
 	}
 }

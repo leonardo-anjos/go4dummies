@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,6 +27,7 @@ func main() {
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
 	router.POST("/albums", postAlbums)
+	router.DELETE("/albums/:id", deleteAlbumByID)
 
 	router.Run("localhost:8080")
 }
@@ -64,4 +66,25 @@ func getAlbumByID(c *gin.Context) {
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
+}
+
+func deleteAlbumByID(c *gin.Context) {
+	id := c.Param("id")
+
+	// Find the index of the album with the given ID
+	index := -1
+	for i, album := range albums {
+		if album.ID == id {
+			index = i
+			break
+		}
+	}
+
+	// If the album is found, remove it from the slice
+	if index != -1 {
+		albums = append(albums[:index], albums[index+1:]...)
+		c.IndentedJSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Album with ID %s deleted", id)})
+	} else {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"error": fmt.Sprintf("Album with ID %s not found", id)})
+	}
 }

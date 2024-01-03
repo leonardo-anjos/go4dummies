@@ -19,5 +19,11 @@ Authorization: Bearer ACCESS-TOKEN
 ### GET albums by ID
 GET {{apiurl}}/albums/2 HTTP/1.1
 
-### GET albums by ID
+### GET albums by ID - not found
 GET {{apiurl}}/albums/22 HTTP/1.1
+
+### DELETE albums by ID
+DELETE {{apiurl}}/albums/4 HTTP/1.1
+
+### DELETE albums by ID - not found
+DELETE {{apiurl}}/albums/22 HTTP/1.1

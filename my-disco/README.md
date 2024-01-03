@@ -20,3 +20,5 @@ $ go run .
 Once the code is running, you have a running HTTP server to which you can send requests.
 
 3. See all endpoints in [api.http](api.http) file
+
+![Alt text](image.png)

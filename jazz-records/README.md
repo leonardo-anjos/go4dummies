@@ -9,3 +9,7 @@ go get: added github.com/go-sql-driver/mysql v1.6.0
 $ go get .
 
 $ go run .
+
+![Alt text](image.png)
+
+![Alt text](image-1.png)

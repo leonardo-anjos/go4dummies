@@ -1,8 +1,0 @@
-go 1.21.4
-
-use (
-	./example/hello
-	./greetings
-	./hello
-	./jazz-records
-)

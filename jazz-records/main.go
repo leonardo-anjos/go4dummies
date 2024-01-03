@@ -55,6 +55,17 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("albumByID(2): %v\n", alb)
+
+	// Call addAlbum function and print the result
+	albID, err := addAlbum(Album{
+		Title:  "The Modern Sound of Betty Carter",
+		Artist: "Betty Carter",
+		Price:  49.99,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("ID of added album: %v\n", albID)
 }
 
 // Query for multiple rows
@@ -96,4 +107,18 @@ func albumByID(id int64) (Album, error) {
 		return alb, fmt.Errorf("albumsById %d: %v", id, err)
 	}
 	return alb, nil
+}
+
+// addAlbum adds the specified album to the database,
+// returning the album ID of the new entry
+func addAlbum(alb Album) (int64, error) {
+	result, err := db.Exec("INSERT INTO album (title, artist, price) VALUES (?, ?, ?)", alb.Title, alb.Artist, alb.Price)
+	if err != nil {
+		return 0, fmt.Errorf("addAlbum: %v", err)
+	}
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, fmt.Errorf("addAlbum: %v", err)
+	}
+	return id, nil
 }

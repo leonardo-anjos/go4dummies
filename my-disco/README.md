@@ -1,7 +1,5 @@
 # my-disco
 
-### run the code
-
 1. Begin tracking the Gin module as a dependency.
 
 At the command line, use go get to add the github.com/gin-gonic/gin module as a dependency for your module. Use a dot argument to mean “get dependencies for code in the current directory.”
@@ -21,8 +19,4 @@ $ go run .
 
 Once the code is running, you have a running HTTP server to which you can send requests.
 
-3. From a new command line window, use curl to make a request to your running web service.
-
-```
-$ curl http://localhost:8080/albums
-```
+3. See all endpoints in [api.http](api.http) file

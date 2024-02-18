@@ -1,0 +1,14 @@
+### Variables 
+@apiurl = http://localhost:8080
+
+### GET grettig page
+GET {{apiurl}} HTTP/1.1
+
+### GET dynamic page with message
+GET {{apiurl}}/monkeys HTTP/1.1
+
+### GET test page view
+GET {{apiurl}}/view/test HTTP/1.1
+
+### GET view a new page
+GET {{apiurl}}/view/ANewPage HTTP/1.1
